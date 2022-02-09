@@ -62,11 +62,12 @@ public class Generator {
 
     private ArrayList<String> splitBook(){
         ge.replace("\n\n","\n");
-        return new ArrayList<>(Arrays.asList(ge.split("\n")));
+        //ge.replace("\r","");
+        return new ArrayList<>(Arrays.asList(ge.split("\r\n")));
         //return new ArrayList<>(Arrays.asList(ge.split("(?<=\\.)(.*)(?=[А-Я])")));//между точкой и большой буквой выделяет пробел и по нему режет
 
     }
-
+//todo убрать пробел
     private ArrayList<String> getSentences(String word){
         ArrayList<String> senlist = splitBook();
         Stream<String> result = senlist.stream().filter((s) -> s.contains(word));

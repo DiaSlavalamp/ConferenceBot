@@ -62,9 +62,16 @@ public class ConferenceBot extends LongPollBot {
         if (id.equals("666")) {
             tryAnswer(() -> {
                         //String answerText = gen.getGreenMessage(message.getText());
-                        String answerText = gen.genBookAnswer(message.getText().replace("бот+ ", ""));
+                       
+                String words = message.getText();
+                String[] sad = words.split(" ");
+                String word = sad[sad.length - 1];
+
+                        String answerText = gen.genBookAnswer(word);
                         if(!answerText.equals("Ничиво не нашел(")){
-                            vk.sendPeerMessage(peerId, answerText);
+                            if(!answerText.replace(" ","").isEmpty()) {
+                                vk.sendPeerMessage(peerId, answerText);
+                            }
                         }
 
                     }
