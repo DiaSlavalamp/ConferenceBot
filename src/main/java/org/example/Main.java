@@ -37,6 +37,11 @@ public class Main {
                         e.printStackTrace();
                     }
 
+                    String[] f = gen.ge.split("(?<=\\.)(.*)(?=[А-Я])");//между точкой и большой буквой выделяет пробел и по нему режет
+
+
+                 //   String sd = gen.genBookAnswer("хуй");
+
                     System.out.println(gen.ge);
 
                     try {

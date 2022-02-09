@@ -18,12 +18,12 @@ import java.util.*;
 //@PropertySource("classpath:values.properties")
 public class ConferenceBot extends LongPollBot {
 
-    @Value( "${test.ts}" )
+    @Value("${test.ts}")
     public String gsg;
-    @Value( "${app.userId}" )
+    @Value("${app.userId}")
     private int userId;
 
-    @Value( "${app.token}" )
+    @Value("${app.token}")
     private String token;
 
     public Generator gen;
@@ -49,9 +49,34 @@ public class ConferenceBot extends LongPollBot {
         Date date = new Date();
         Integer peerId = message.getPeerId();
 
-        if (message.getText().toUpperCase().contains("БОТ")) {
+        String id = message.getDate().toString();
+        id = id.replace("0", "");
+        id = id.replace("1", "");
+        id = id.replace("2", "");
+        id = id.replace("3", "");
+        id = id.replace("4", "");
+        id = id.replace("5", "");
+        id = id.replace("7", "");
+        id = id.replace("8", "");
+        id = id.replace("9", "");
+        if (id.equals("666")) {
             tryAnswer(() -> {
-                        String answerText = gen.getGreenMessage(message.getText());
+                        //String answerText = gen.getGreenMessage(message.getText());
+                        String answerText = gen.genBookAnswer(message.getText().replace("бот+ ", ""));
+                        if(!answerText.equals("Ничиво не нашел(")){
+                            vk.sendPeerMessage(peerId, answerText);
+                        }
+
+                    }
+            );
+            return;
+        }
+
+
+        if (message.getText().toUpperCase().contains("БОТ+")) {
+            tryAnswer(() -> {
+                        //String answerText = gen.getGreenMessage(message.getText());
+                        String answerText = gen.genBookAnswer(message.getText().replace("бот+ ", ""));
                         vk.sendPeerMessage(peerId, answerText);
                     }
             );
