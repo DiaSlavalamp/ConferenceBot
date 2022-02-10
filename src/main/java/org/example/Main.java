@@ -30,9 +30,9 @@ public class Main {
                     myBot.vk = vk;
 
                     try {
-                        gen.ge = new String(Files.readAllBytes(Paths.get("C:\\Users\\defce\\IdeaProjects\\ConferenceBot\\src\\main\\resources\\Sorokin_Vladimir_-_Serdca_chetyrex.txt")));
-                        gen.bv = new String(Files.readAllBytes(Paths.get("C:\\Users\\defce\\IdeaProjects\\ConferenceBot\\src\\main\\resources\\киш.txt")));
-                        gen.kh =  new String(Files.readAllBytes(Paths.get("C:\\Users\\defce\\IdeaProjects\\ConferenceBot\\src\\main\\resources\\зс.txt")));
+                        gen.ge = new String(Files.readAllBytes(Paths.get("C:\\konfbot\\Sorokin_Vladimir_-_Serdca_chetyrex.txt")));
+                      //  gen.bv = new String(Files.readAllBytes(Paths.get("C:\\Users\\defce\\IdeaProjects\\ConferenceBot\\src\\main\\resources\\киш.txt")));
+                        //  gen.kh =  new String(Files.readAllBytes(Paths.get("C:\\Users\\defce\\IdeaProjects\\ConferenceBot\\src\\main\\resources\\зс.txt")));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
