@@ -12,7 +12,7 @@ public class Generator {
 
     static String kh;
 
-    public static String getGreenMessage(String words){
+    public static String getGreenMessage(String words) {
 
         String[] sad = words.split(" ");
         String word = sad[sad.length - 1];
@@ -22,19 +22,17 @@ public class Generator {
             String anser;
 
 
-
             String[] ss = ge.split(word);
 
 
-            if (ss.length <2){
+            if (ss.length < 2) {
                 System.out.println("1 не найдено");
                 ss = bv.split(word);
 
 
-                if (ss.length <2){
+                if (ss.length < 2) {
                     System.out.println("2 не найдено");
                     ss = kh.split(word);
-
 
 
                     String[] sss = ss[1].split("\n");
@@ -52,7 +50,7 @@ public class Generator {
             anser = word + sss[0];
             return anser;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("3 не найдено");
             e.printStackTrace();
         }
@@ -60,45 +58,50 @@ public class Generator {
     }
 
 
-    private ArrayList<String> splitBook(){
-        ge.replace("\n\n","\n");
+    private ArrayList<String> splitBook() {
+        ge.replace("\n\n", "\n");
         //ge.replace("\r","");
         return new ArrayList<>(Arrays.asList(ge.split("\r\n")));
         //return new ArrayList<>(Arrays.asList(ge.split("(?<=\\.)(.*)(?=[А-Я])")));//между точкой и большой буквой выделяет пробел и по нему режет
 
     }
-//todo убрать пробел
-    private ArrayList<String> getSentences(String word){
+
+    private ArrayList<String> getSentences(String word) {
         ArrayList<String> senlist = splitBook();
         Stream<String> result = senlist.stream().filter((s) -> s.contains(word));
         return (ArrayList<String>) result.collect(Collectors.toList());
     }
 
 
-
-    public String genBookAnswer(String word){
+    public String genBookAnswer(String word) {
         HashSet<String> result = new HashSet<>();
         String resultStr = "";
 
         ArrayList<String> match = getSentences(word);
 
-        if(!match.isEmpty()){
+        if (!match.isEmpty()) {
             //ArrayList<String> result = new ArrayList<>();
             Random random = new Random();
 //            int r = random.nextInt(match.size()-1);
 //            result.add(match.get(r));
 //            resultStr+=match.get(r)+"\n";
-            for(int i = 0; i<1; i++){
-                int rn = random.nextInt(match.size()-1);
-                if(!result.contains(match.get(rn))){
-                    result.add(match.get(rn));
-                    String s = match.get(rn);
-                    resultStr+=(s.substring(s.indexOf(word),s.length()-1))+"\n";
+            for (int i = 0; i < 1; i++) {
+                if (match.size() == 1) {
+                    String s = match.get(0);
+                   // resultStr += (s.substring(s.indexOf(word), s.length() - 1));
+                    resultStr +=  s;
+                } else {
+                    int rn = random.nextInt(match.size() - 1);
+                    if (!result.contains(match.get(rn))) {
+                        result.add(match.get(rn));
+                        String s = match.get(rn);
+                        resultStr += (s.substring(s.indexOf(word), s.length() - 1)) + "\n";
+                    }
                 }
             }
             return resultStr;
 
-        }else {
+        } else {
             return "Ничиво не нашел(";
         }
 

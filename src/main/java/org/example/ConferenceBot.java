@@ -49,33 +49,45 @@ public class ConferenceBot extends LongPollBot {
         Date date = new Date();
         Integer peerId = message.getPeerId();
 
-        String id = message.getDate().toString();
-        id = id.replace("0", "");
-        id = id.replace("1", "");
-        id = id.replace("2", "");
-        id = id.replace("3", "");
-        id = id.replace("4", "");
-        id = id.replace("5", "");
-        id = id.replace("7", "");
-        id = id.replace("8", "");
-        id = id.replace("9", "");
-        if (id.equals("666")) {
+        //todo вместо даты в айдишник пихать сумму цифр в айди или хз или тупа рандом на 666 и типа делится ли он на 6 без остатка
+
+        int id = message.getConversationMessageId();
+        System.out.println( id + "/");
+//        id = id.replace("0", "");
+//        id = id.replace("1", "");
+//        id = id.replace("2", "");
+//        id = id.replace("3", "");
+//        id = id.replace("4", "");
+//        id = id.replace("5", "");
+//        id = id.replace("7", "");
+//        id = id.replace("8", "");
+//        id = id.replace("9", "");
+
+        int avesatanas = id*666%13;
+        System.out.println( "?"+id*666+"-"+avesatanas + "?");
+        avesatanas = 0;////////////////
+        if (avesatanas==0) {
+            System.out.println( "Ave satanas!");
             tryAnswer(() -> {
                         //String answerText = gen.getGreenMessage(message.getText());
-                       
+
                 String words = message.getText();
                 String[] sad = words.split(" ");
                 String word = sad[sad.length - 1];
-
+                System.out.println( word);
                         String answerText = gen.genBookAnswer(word);
                         if(!answerText.equals("Ничиво не нашел(")){
                             if(!answerText.replace(" ","").isEmpty()) {
                                 vk.sendPeerMessage(peerId, answerText);
                             }
+                        }else {
+                            System.out.println( "нинашел(");
                         }
 
                     }
             );
+            return;
+        }else if(0==0) {
             return;
         }
 
