@@ -65,7 +65,7 @@ public class ConferenceBot extends LongPollBot {
 
         int avesatanas = id*666%13;
         System.out.println( "?"+id*666+"-"+avesatanas + "?");
-        avesatanas = 0;////////////////
+        //avesatanas = 0;////////////////
         if (avesatanas==0) {
             System.out.println( "Ave satanas!");
             tryAnswer(() -> {
