@@ -15,6 +15,9 @@ public class Main {
 
             while (true) {
                 try {
+
+                    System.out.println(System.getProperty("user.dir"));
+
                     ClassPathXmlApplicationContext apcon = new ClassPathXmlApplicationContext("applicationContext.xml");
 
                     System.out.println("test");
@@ -30,6 +33,7 @@ public class Main {
                     myBot.vk = vk;
 
                     try {
+                        String root = System.getProperty("user.dir");
                         gen.ge = new String(Files.readAllBytes(Paths.get("C:\\konfbot\\Sorokin_Vladimir_-_Serdca_chetyrex.txt")));
                       //  gen.bv = new String(Files.readAllBytes(Paths.get("C:\\Users\\defce\\IdeaProjects\\ConferenceBot\\src\\main\\resources\\киш.txt")));
                         //  gen.kh =  new String(Files.readAllBytes(Paths.get("C:\\Users\\defce\\IdeaProjects\\ConferenceBot\\src\\main\\resources\\зс.txt")));

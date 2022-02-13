@@ -49,6 +49,33 @@ public class ConferenceBot extends LongPollBot {
         Date date = new Date();
         Integer peerId = message.getPeerId();
 
+        if (message.getText().toUpperCase().substring(0,3).contains("БОТ")) {
+            tryAnswer(() -> {
+                        //String answerText = gen.getGreenMessage(message.getText());
+
+                        String words = message.getText();
+                        String[] sad = words.split(" ");
+                        String word = sad[sad.length - 1];
+                        System.out.println( word);
+                        String answerText = gen.genBookAnswer(word);
+                        if(!answerText.equals("Ничиво не нашел(")){
+                            if(!answerText.replace(" ","").isEmpty()) {
+                                vk.sendPeerMessage(peerId, answerText);
+                            }
+                        }else {
+                            System.out.println( "нинашел(");
+                        }
+
+                    }
+            );
+//            tryAnswer(() -> {
+//                        //String answerText = gen.getGreenMessage(message.getText());
+//                        String answerText = gen.genBookAnswer(message.getText().replace("бот+ ", ""));
+//                        vk.sendPeerMessage(peerId, answerText);
+//                    }
+ //           );
+        }
+
         //todo вместо даты в айдишник пихать сумму цифр в айди или хз или тупа рандом на 666 и типа делится ли он на 6 без остатка
 
         int id = message.getConversationMessageId();
@@ -92,14 +119,7 @@ public class ConferenceBot extends LongPollBot {
         }
 
 
-        if (message.getText().toUpperCase().contains("БОТ+")) {
-            tryAnswer(() -> {
-                        //String answerText = gen.getGreenMessage(message.getText());
-                        String answerText = gen.genBookAnswer(message.getText().replace("бот+ ", ""));
-                        vk.sendPeerMessage(peerId, answerText);
-                    }
-            );
-        }
+
 
         if (message.getText().toUpperCase().equals("ВРЕМЯ")) {
             tryAnswer(() -> {
