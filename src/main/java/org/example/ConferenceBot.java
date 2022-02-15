@@ -96,7 +96,7 @@ public class ConferenceBot extends LongPollBot {
 //        id = id.replace("8", "");
 //        id = id.replace("9", "");
 
-        int avesatanas = id * 666 % 13;
+        int avesatanas = id * 666 * 3 % 13;
         System.out.println("?" + id * 666 + "-" + avesatanas + "?");
         //avesatanas = 0;////////////////
         if (avesatanas == 0) {
