@@ -1,75 +1,127 @@
 package org.example;
 
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Component
 public class Generator {
 
-    static String ge;
+//    static String ge;
+//
+//    static String bv;
+//
+//    static String kh;
 
-    static String bv;
+    private static List<List<String>> contentStringsList;
 
-    static String kh;
+    public void setContent(List<File> contentList) {
 
-    public static String getGreenMessage(String words) {
+        contentStringsList = new ArrayList<>();
 
-        String[] sad = words.split(" ");
-        String word = sad[sad.length - 1];
-
-        System.out.println(word);
-        try {
-            String anser;
-
-
-            String[] ss = ge.split(word);
+        for (File file : contentList) {
+            try {
+                String bookStr = new String(Files.readAllBytes(file.toPath()));
 
 
-            if (ss.length < 2) {
-                System.out.println("1 не найдено");
-                ss = bv.split(word);
+                // String root = System.getProperty("user.dir");
+                //conferenceBot.gen.ge = new String(Files.readAllBytes(Paths.get(rootPath + "\\content\\Sorokin_Vladimir_-_Serdca_chetyrex.txt")));
+                //  gen.bv = new String(Files.readAllBytes(Paths.get("C:\\Users\\defce\\IdeaProjects\\ConferenceBot\\src\\main\\resources\\киш.txt")));
+                //  gen.kh =  new String(Files.readAllBytes(Paths.get("C:\\Users\\defce\\IdeaProjects\\ConferenceBot\\src\\main\\resources\\зс.txt")));
 
+                //String[] array = ge.split("(?<=\\.)(.*)(?=[А-Я])");//между точкой и большой буквой выделяет пробел и по нему режет
 
-                if (ss.length < 2) {
-                    System.out.println("2 не найдено");
-                    ss = kh.split(word);
+                //String[] array = splitBook()
+                contentStringsList.add(splitBook(bookStr));
 
-
-                    String[] sss = ss[1].split("\n");
-                    anser = word + sss[0];
-                    return anser;
-                }
-
-
-                String[] sss = ss[1].split("\n");
-                anser = word + sss[0];
-                return anser;
+                String sd = genBookAnswer("нужно");
+                System.out.println(bookStr);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            String[] sss = ss[1].split("\n");
-            anser = word + sss[0];
-            return anser;
-
-        } catch (Exception e) {
-            System.out.println("3 не найдено");
-            e.printStackTrace();
         }
-        return "Дедушка тебя не понимает \uD83C\uDF85";
+
+//        for(String content : contentList){
+        //todo dolzen ves spisok rabotat
+        //ischo dlya каждой книги свой регексп нужен мб класс отделньый завести
+        //типа аддбук и там помимо стринги еще стринга регекспа
+//            ge = content;
+//            new String(Files.readAllBytes(Paths.get(rootPath + "\\content\\Sorokin_Vladimir_-_Serdca_chetyrex.txt")));
+//
+//        }
     }
 
+//старый метод
+//    public static String getGreenMessage(String words) {
+//
+//        String[] sad = words.split(" ");
+//        String word = sad[sad.length - 1];
+//
+//        System.out.println(word);
+//        try {
+//            String anser;
+//
+//
+//            String[] ss = ge.split(word);
+//
+//
+//            if (ss.length < 2) {
+//                System.out.println("1 не найдено");
+//                ss = bv.split(word);
+//
+//
+//                if (ss.length < 2) {
+//                    System.out.println("2 не найдено");
+//                    ss = kh.split(word);
+//
+//
+//                    String[] sss = ss[1].split("\n");
+//                    anser = word + sss[0];
+//                    return anser;
+//                }
+//
+//
+//                String[] sss = ss[1].split("\n");
+//                anser = word + sss[0];
+//                return anser;
+//            }
+//
+//            String[] sss = ss[1].split("\n");
+//            anser = word + sss[0];
+//            return anser;
+//
+//        } catch (Exception e) {
+//            System.out.println("3 не найдено");
+//            e.printStackTrace();
+//        }
+//        return "Дедушка тебя не понимает \uD83C\uDF85";
+//    }
 
-    private ArrayList<String> splitBook() {
-        ge.replace("\n\n", "\n");
+
+    private ArrayList<String> splitBook(String book) {
+        book.replace("\n\n", "\n");//todo это не работает же!!!!
         //ge.replace("\r","");
-        return new ArrayList<>(Arrays.asList(ge.split("\r\n")));
+        return new ArrayList<>(Arrays.asList(book.split("\r\n")));
         //return new ArrayList<>(Arrays.asList(ge.split("(?<=\\.)(.*)(?=[А-Я])")));//между точкой и большой буквой выделяет пробел и по нему режет
 
     }
 
     private ArrayList<String> getSentences(String word) {
-        ArrayList<String> senlist = splitBook();
-        Stream<String> result = senlist.stream().filter((s) -> s.contains(word));
-        return (ArrayList<String>) result.collect(Collectors.toList());
+        for (int i = 0; i < contentStringsList.size(); i++) {
+            Collections.shuffle(contentStringsList);//todo это просто рандомайзер, сделать интереснее
+            List<String> sentenceslist = contentStringsList.get(i);
+            Stream<String> stream = sentenceslist.stream().filter((s) -> s.contains(word));
+            ArrayList<String> result = (ArrayList<String>) stream.collect(Collectors.toList());
+            if (!result.isEmpty()) {
+                return result;
+            }
+        }
+        return new ArrayList<>();
     }
 
 
@@ -88,8 +140,8 @@ public class Generator {
             for (int i = 0; i < 1; i++) {
                 if (match.size() == 1) {
                     String s = match.get(0);
-                   // resultStr += (s.substring(s.indexOf(word), s.length() - 1));
-                    resultStr +=  s;
+                    // resultStr += (s.substring(s.indexOf(word), s.length() - 1));
+                    resultStr += s;
                 } else {
                     int rn = random.nextInt(match.size() - 1);
                     if (!result.contains(match.get(rn))) {

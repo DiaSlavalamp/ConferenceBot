@@ -6,11 +6,13 @@ import api.longpoll.bots.exceptions.BotsLongPollHttpException;
 import api.longpoll.bots.methods.messages.MessagesSend;
 import api.longpoll.bots.model.events.messages.MessageNewEvent;
 import api.longpoll.bots.model.objects.basic.Message;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 
@@ -26,7 +28,10 @@ public class ConferenceBot extends LongPollBot {
     @Value("${app.token}")
     private String token;
 
+    @Autowired
     public Generator gen;
+
+    @Autowired
     public Vkontakte vk;
 
     public boolean tryAnswer(BotAnswerer botAnswerer) {
@@ -49,21 +54,22 @@ public class ConferenceBot extends LongPollBot {
         Date date = new Date();
         Integer peerId = message.getPeerId();
 
-        if (message.getText().toUpperCase().substring(0,3).contains("БОТ")) {
+        if (message.getText().toUpperCase().substring(0, 3).contains("БОТ")) {
             tryAnswer(() -> {
                         //String answerText = gen.getGreenMessage(message.getText());
 
                         String words = message.getText();
                         String[] sad = words.split(" ");
                         String word = sad[sad.length - 1];
-                        System.out.println( word);
+                        //word = new String(word.getBytes(), StandardCharsets.US_ASCII);
+                        System.out.println("\nword=" + word);
                         String answerText = gen.genBookAnswer(word);
-                        if(!answerText.equals("Ничиво не нашел(")){
-                            if(!answerText.replace(" ","").isEmpty()) {
+                        if (!answerText.equals("Ничиво не нашел(")) {
+                            if (!answerText.replace(" ", "").isEmpty()) {
                                 vk.sendPeerMessage(peerId, answerText);
                             }
-                        }else {
-                            System.out.println( "нинашел(");
+                        } else {
+                            System.out.println("нинашел(");
                         }
 
                     }
@@ -73,13 +79,13 @@ public class ConferenceBot extends LongPollBot {
 //                        String answerText = gen.genBookAnswer(message.getText().replace("бот+ ", ""));
 //                        vk.sendPeerMessage(peerId, answerText);
 //                    }
- //           );
+            //           );
         }
 
         //todo вместо даты в айдишник пихать сумму цифр в айди или хз или тупа рандом на 666 и типа делится ли он на 6 без остатка
 
         int id = message.getConversationMessageId();
-        System.out.println( id + "/");
+        System.out.println("id=" + id + "/");
 //        id = id.replace("0", "");
 //        id = id.replace("1", "");
 //        id = id.replace("2", "");
@@ -90,35 +96,34 @@ public class ConferenceBot extends LongPollBot {
 //        id = id.replace("8", "");
 //        id = id.replace("9", "");
 
-        int avesatanas = id*666%13;
-        System.out.println( "?"+id*666+"-"+avesatanas + "?");
+        int avesatanas = id * 666 % 13;
+        System.out.println("?" + id * 666 + "-" + avesatanas + "?");
         //avesatanas = 0;////////////////
-        if (avesatanas==0) {
-            System.out.println( "Ave satanas!");
+        if (avesatanas == 0) {
+            System.out.println("Ave satanas!");
             tryAnswer(() -> {
                         //String answerText = gen.getGreenMessage(message.getText());
 
-                String words = message.getText();
-                String[] sad = words.split(" ");
-                String word = sad[sad.length - 1];
-                System.out.println( word);
+                        String words = message.getText();
+                        String[] sad = words.split(" ");
+                        String word = sad[sad.length - 1];
+                        //word = new String(word.getBytes(), StandardCharsets.UTF_8);
+                        System.out.println("\nword=" + word);
                         String answerText = gen.genBookAnswer(word);
-                        if(!answerText.equals("Ничиво не нашел(")){
-                            if(!answerText.replace(" ","").isEmpty()) {
+                        if (!answerText.equals("Ничиво не нашел(")) {
+                            if (!answerText.replace(" ", "").isEmpty()) {
                                 vk.sendPeerMessage(peerId, answerText);
                             }
-                        }else {
-                            System.out.println( "нинашел(");
+                        } else {
+                            System.out.println("нинашел(");
                         }
 
                     }
             );
             return;
-        }else if(0==0) {
+        } else if (0 == 0) {
             return;
         }
-
-
 
 
         if (message.getText().toUpperCase().equals("ВРЕМЯ")) {
